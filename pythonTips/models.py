@@ -8,3 +8,6 @@ class Tweets(models.Model):
     time_stamp = models.DateTimeField('date published')
     python_tip = models.CharField(max_length=280)
     twitter_id = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.python_tip
