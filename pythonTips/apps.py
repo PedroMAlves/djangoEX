@@ -6,3 +6,7 @@ from django.apps import AppConfig
 
 class PythontipsConfig(AppConfig):
     name = 'pythonTips'
+
+    def ready(self):
+        from scheduler import updater
+        updater.start()
