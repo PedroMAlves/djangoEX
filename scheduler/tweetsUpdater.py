@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from requests_oauthlib import OAuth1
 import json
 from pythonTips import models
+from utility import converter
 
 
 auth_params = {
@@ -27,8 +28,13 @@ def update_db():
     results = requests.get(url_rest, params=params, auth=auth)
     tweets = results.json()
     for tweet in tweets:
-        models.Tweets(time_stamp=tweet["created_at"], python_tip=tweet["text"], twitter_id="@Cenas").save()
+        print(tweet["user"]["screen_name"])
+        print(type(tweet["user"]["screen_name"]))
+        if models.Tweets.objects.filter(twitter_id=tweet["id"]).count() == 0:
+            date = tweet["created_at"].split(" ")
+            formated_date = date[5] + "-" + converter.convert_str_to_month(date[1]) + "-" + date[2] + " " + date[3]
+            models.Tweets(time_stamp=formated_date, python_tip=tweet["text"], twitter_id=tweet["id"]).save()
     
-    with open('test.txt', 'w') as f:
-        f.write(json.dumps(tweets))
+    #with open('test.txt', 'w') as f:
+    #    f.write(json.dumps(tweets))
     print("working")

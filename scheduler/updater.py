@@ -5,5 +5,5 @@ from scheduler import tweetsUpdater
 
 def start():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(tweetsUpdater.update_db, 'interval', days=15)
+    scheduler.add_job(tweetsUpdater.update_db, 'interval', seconds=10)
     scheduler.start()
